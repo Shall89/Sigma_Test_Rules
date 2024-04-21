@@ -1,0 +1,41 @@
+Sigma Rulerule: Potential_CVE_2024_21338_Kernel_Privilege_Escalation
+description: Detects suspicious activities that could be linked to exploitation attempts targeting CVE-2024-21338 (Windows Kernel Privilege Escalation).
+
+// Note: Replace bracketed values with specific indicators as exploit details emerge.
+trigger:
+  # Monitor process creation with suspicious attributes
+  process_creation:
+    - image: /*\\windows\\temp\\*       // Look for processes created in temp folders (replace with specific paths if known)
+    - image: /*\\windows\\prefetch\\*   //Prefetch folders (replace with specific paths if known)
+
+  //Add additional image conditions based on suspicious process names (if known)
+  //Track specific Windows kernel API calls (cautiously to avoid overwhelming with false positives)
+
+  api_call:
+    name: Nt*  //Broad match for Nt* system calls (refine as details emerge)
+
+  //Add specific API calls based on suspected exploit behavior (if known)
+  //Monitor system calls associated with privilege escalation (cautiously to avoid overwhelming with false positives)
+
+  syscalls:
+    name: NtSetInformationProcess  //Example system call
+
+  //Add additional syscall names based on suspected exploit behavior (if known)
+condition:
+//Combine multiple triggers for stronger detection (adjust as needed)
+  all of them
+
+level: high  //Adjust severity level as needed
+
+falsepositives:
+
+//Potentially risky processes or API calls unrelated to CVE-2024-21338
+//Consider adding specific examples based on your environment
+//Add additional false positive examples here as needed
+
+date: 2024-04-21
+
+references:
+  - https://attack.mitre.org/ (MITRE ATT&CK) - for reference on potential exploit behavior
+
+  - https://www.cisa.gov/ (Cybersecurity & Infrastructure Security Agency) - for staying updated on CVE details
